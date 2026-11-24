@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8fafc">
+  <title>Doudi Translate — دودي ترجمة</title>
+  <meta name="description" content="ترجم النصوص بسرعة وسهولة مع Doudi Translate.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Doudi Translate home">
+      <span class="brand-mark">D</span>
+      <span><b>Doudi</b><small>TRANSLATE</small></span>
+    </a>
+    <nav><a class="nav-link active" href="#translator">المترجم</a><a class="nav-link" href="#history">سجل الترجمات</a></nav>
+    <span class="free-pill"><i></i> مجاني للجميع</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span>✦</span> ترجمتك أسهل مع دودي</div>
+      <h1>الكلمات تقرّبنا،<br><em>والترجمة تجمعنا.</em></h1>
+      <p>ترجم بين اللغات بسهولة وسرعة. اكتب نصك، اختر اللغة، واترك الباقي علينا.</p>
+    </section>
+
+    <section class="translator-card" id="translator">
+      <div class="card-head">
+        <div><span class="tiny-label">DOUDI TRANSLATE</span><h2>ابدأ الترجمة</h2></div>
+        <span class="secure-label">● ترجمة مباشرة</span>
+      </div>
+
+      <div class="language-bar">
+        <div class="language-side">
+          <span class="lang-caption">من</span>
+          <div class="lang-select-wrap"><span class="lang-flag">🌐</span><select id="sourceLang" aria-label="لغة المصدر"><option value="auto">اكتشاف اللغة تلقائياً</option>{% for lang in languages %}<option value="{{ lang.code }}">{{ lang.flag }} {{ lang.name }}</option>{% endfor %}</select></div>
+        </div>
+        <button id="swapBtn" class="swap-btn" title="تبديل اللغتين" aria-label="تبديل اللغتين">⇄</button>
+        <div class="language-side target-side">
+          <span class="lang-caption">إلى</span>
+          <div class="lang-select-wrap"><span class="lang-flag" id="targetFlag">🇸🇦</span><select id="targetLang" aria-label="لغة الترجمة">{% for lang in languages %}<option value="{{ lang.code }}" {% if lang.code == 'ar' %}selected{% endif %}>{{ lang.name }}</option>{% endfor %}</select></div>
+        </div>
+      </div>
+
+      <div class="work-area">
+        <div class="text-panel input-panel">
+          <div class="panel-title"><span>النص الأصلي</span><button class="small-action" id="clearBtn">مسح النص</button></div>
+          <textarea id="sourceText" maxlength="5000" placeholder="اكتب أو ألصق النص الذي تريد ترجمته هنا..." spellcheck="true"></textarea>
+          <div class="panel-footer"><span id="charCount">0 / 5000</span><button class="icon-action" id="pasteBtn" title="لصق النص">▣ <span>لصق</span></button></div>
+        </div>
+        <div class="text-panel result-panel">
+          <div class="panel-title"><span>الترجمة</span><span class="result-tag">النتيجة</span></div>
+          <div id="resultText" class="result-text" aria-live="polite">ستظهر الترجمة هنا...</div>
+          <div class="panel-footer"><span id="resultStatus">جاهز للترجمة</span><button class="icon-action" id="copyBtn" disabled title="نسخ الترجمة">▢ <span>نسخ</span></button></div>
+        </div>
+      </div>
+      <div class="action-row">
+        <span class="hint">يدعم النصوص حتى 5000 حرف</span>
+        <button id="translateBtn" class="translate-btn"><span>ترجم الآن</span><b>←</b></button>
+      </div>
+      <div id="errorBox" class="error-box" role="alert" hidden></div>
+    </section>
+
+    <section class="history-section" id="history">
+      <div class="section-heading"><div><span class="tiny-label">YOUR ACTIVITY</span><h2>سجل الترجمات</h2><p>ترجماتك الأخيرة محفوظة على هذا الجهاز.</p></div><button id="clearHistoryBtn" class="clear-history">مسح السجل</button></div>
+      <div id="historyList" class="history-list"><div class="empty-history"><span>◷</span><b>لا توجد ترجمات بعد</b><small>عندما تترجم نصاً، ستجده هنا.</small></div></div>
+    </section>
+  </main>
+  <footer><a class="footer-brand" href="/">Doudi Translate</a><span>صُنع ليجعل التواصل أسهل 🌍</span><span>© <span id="year"></span> Doudi</span></footer>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
