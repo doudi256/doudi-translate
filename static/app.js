@@ -30,7 +30,7 @@ async function translate(){
   const btn=$("translateBtn");btn.disabled=true;btn.querySelector("span").textContent="جاري الترجمة...";
   $("resultStatus").textContent="يرجى الانتظار";resultText.classList.remove("placeholder");resultText.textContent="جاري ترجمة النص...";
   try{
-    const response=await fetch("/api/translate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,target:targetLang.value})});
+    const response=await fetch("/api/translate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,source:$("sourceLang").value,target:targetLang.value})});
     const data=await response.json();if(!response.ok)throw new Error(data.error||"تعذر إتمام الترجمة.");
     resultText.textContent=data.translation;$("resultStatus").textContent="اكتملت الترجمة";$("copyBtn").disabled=false;
     historyItems.unshift({original:text,translation:data.translation,from:langName("auto"),to:langName("target"),time:Date.now()});
